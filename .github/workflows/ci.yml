@@ -39,7 +39,7 @@ jobs:
           docker run -d --name azurite -p 10000:10000 mcr.microsoft.com/azure-storage/azurite
           azurite-blob --blobHost 0.0.0.0 --inMemoryPersistence --skipApiVersionCheck
 
-      - uses: actions/setup-dotnet@v5
+      - uses: actions/setup-dotnet@v6
         with:
           global-json-file: global.json
 
