@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- Class library: DocumentProcessingWorker is hosted in-process by the Api (see ADR-0004). -->
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="10.0.13" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="10.0.13" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DocumentProcessing.Core\DocumentProcessing.Core.csproj" />
+  </ItemGroup>
+
+</Project>

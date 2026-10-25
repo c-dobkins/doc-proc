@@ -1,0 +1,12 @@
+**/bin/
+**/obj/
+**/node_modules/
+**/dist/
+**/.git/
+**/.vs/
+**/.vscode/
+**/.idea/
+**/uploads/
+**/tessdata/
+*.md
+!README.md

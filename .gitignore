@@ -1,0 +1,43 @@
+# .NET
+bin/
+obj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# IDEs
+.idea/
+.vs/
+
+# VS Code
+.vscode/
+
+# Secrets / local env
+secrets.json
+.env
+.env.*
+
+# Node
+node_modules/
+dist/
+*.tsbuildinfo
+
+# Application data
+src/DocumentProcessing.Api/uploads/
+src/DocumentProcessing.Api/tessdata/
+
+# Claude Code: share project settings, keep personal overrides local
+.claude/settings.local.json
+CLAUDE.local.md
+
+# Test/temp files
+*.pdf
+TestResults/
+coverage/
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+.azure

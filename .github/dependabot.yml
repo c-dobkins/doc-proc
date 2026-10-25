@@ -1,0 +1,35 @@
+version: 2
+updates:
+  - package-ecosystem: nuget
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      microsoft:
+        patterns: ["Microsoft.*", "System.*"]
+      aspire:
+        patterns: ["Aspire.*"]
+      opentelemetry:
+        patterns: ["OpenTelemetry.*"]
+    ignore:
+      # Aspire 13.6 depends on MessagePack 2.x (see CLAUDE.md, held-back versions).
+      - dependency-name: MessagePack
+        update-types: ["version-update:semver-major"]
+
+  - package-ecosystem: npm
+    directory: /src/DocumentProcessing.Web
+    schedule:
+      interval: weekly
+    groups:
+      dev-dependencies:
+        dependency-type: development
+        update-types: [minor, patch]
+    ignore:
+      # typescript-eslint doesn't support TypeScript 7 yet (see CLAUDE.md, held-back versions).
+      - dependency-name: typescript
+        update-types: ["version-update:semver-major"]
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly

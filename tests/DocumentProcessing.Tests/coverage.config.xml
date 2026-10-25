@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Configuration>
+  <CodeCoverage>
+    <ModulePaths>
+      <Include>
+        <ModulePath>.*DocumentProcessing\..*\.dll$</ModulePath>
+      </Include>
+      <Exclude>
+        <ModulePath>.*DocumentProcessing\.Tests\.dll$</ModulePath>
+        <ModulePath>.*DocumentProcessing\.AppHost\.dll$</ModulePath>
+      </Exclude>
+    </ModulePaths>
+    <Sources>
+      <Exclude>
+        <Source>.*[/\\]Migrations[/\\].*</Source>
+      </Exclude>
+    </Sources>
+  </CodeCoverage>
+</Configuration>
