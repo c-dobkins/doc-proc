@@ -1,0 +1,29 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/Azure/azure-dev/main/schemas/v1.0/azure.yaml.json
+
+name: document-processing
+metadata:
+    template: azd-init@1.23.14
+host: containerapp
+services:
+    docproc:
+        project: .
+        host: containerapp
+        language: docker
+        docker:
+            path: Dockerfile
+            context: .
+resources:
+    docproc:
+        type: host.containerapp
+        port: 8080
+        uses:
+            - db
+            - storage
+    db:
+        type: db.postgres
+    # Uploaded documents. azd grants the app's managed identity "Storage Blob Data Contributor"
+    # and sets AZURE_STORAGE_BLOB_ENDPOINT, which the API detects automatically (keyless).
+    storage:
+        type: storage
+        containers:
+            - documents
