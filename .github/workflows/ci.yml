@@ -31,7 +31,7 @@ jobs:
       DOCPROC_TEST_POSTGRES: Host=localhost;Port=5432;Username=postgres;Password=postgres
       DOCPROC_TEST_AZURITE: UseDevelopmentStorage=true
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
 
       - name: Start Azurite (Azure Storage emulator)
         # Not a service container: the blob-only command and --skipApiVersionCheck need custom args
@@ -75,7 +75,7 @@ jobs:
       run:
         working-directory: src/DocumentProcessing.Web
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
 
       - uses: actions/setup-node@v5
         with:
@@ -94,6 +94,6 @@ jobs:
     runs-on: ubuntu-latest
     needs: [backend, frontend]
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
       - name: Build image (no push)
         run: docker build -t docproc:ci .
