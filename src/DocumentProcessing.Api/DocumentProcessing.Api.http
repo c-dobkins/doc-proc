@@ -1,0 +1,82 @@
+# Requests for the IDE HTTP client (Visual Studio, Rider, VS Code REST Client).
+# Run the API with `dotnet run --project src/DocumentProcessing.Api` (http profile, port 5052),
+# or set @host to the "api" endpoint shown in the Aspire dashboard.
+# Writes need an access key outside Development: set @apiKey to one of Auth:ApiKeys.
+
+@host = http://localhost:5052
+@apiKey = replace-with-an-access-key
+@documentId = 00000000-0000-0000-0000-000000000000
+@templateId = 00000000-0000-0000-0000-000000000000
+
+### Health
+GET {{host}}/health
+
+### Can this caller write? (reads are always public)
+GET {{host}}/api/auth/status
+X-Api-Key: {{apiKey}}
+
+### Dashboard metrics
+GET {{host}}/api/metrics/dashboard
+
+### List documents (status is optional: Uploaded, Processing, Completed, Failed, NeedsReview, Approved)
+GET {{host}}/api/documents?page=1&pageSize=20
+
+### Document detail (extracted fields, OCR text, metrics)
+GET {{host}}/api/documents/{{documentId}}
+
+### Download the original file
+GET {{host}}/api/documents/{{documentId}}/download
+
+### Upload a document (PDF/JPEG/PNG/TIFF/BMP, max 50 MB; templateId is optional)
+POST {{host}}/api/documents/upload?templateId={{templateId}}
+X-Api-Key: {{apiKey}}
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="file"; filename="sample.pdf"
+Content-Type: application/pdf
+
+< ./sample.pdf
+--boundary--
+
+### Correct extracted fields (changes are recorded in the correction log)
+PUT {{host}}/api/documents/{{documentId}}/fields
+X-Api-Key: {{apiKey}}
+Content-Type: application/json
+
+{
+  "fields": [
+    { "name": "TotalAmount", "value": "48300.00" }
+  ]
+}
+
+### Approve a document
+POST {{host}}/api/documents/{{documentId}}/approve
+X-Api-Key: {{apiKey}}
+
+### Re-run the processing pipeline
+POST {{host}}/api/documents/{{documentId}}/reprocess
+X-Api-Key: {{apiKey}}
+
+### List templates
+GET {{host}}/api/templates
+
+### Create a template (the prompt must contain all three placeholders)
+POST {{host}}/api/templates
+X-Api-Key: {{apiKey}}
+Content-Type: application/json
+
+{
+  "name": "Purchase Order",
+  "description": "Extracts purchase order details",
+  "fields": [
+    { "name": "PoNumber", "dataType": "String", "isRequired": true, "description": "Purchase order number" },
+    { "name": "OrderDate", "dataType": "Date", "isRequired": true, "description": "Date of the order" },
+    { "name": "Total", "dataType": "Currency", "isRequired": true, "description": "Order total" }
+  ],
+  "promptTemplate": "Extract the fields below from this purchase order.\n{fieldDefinitions}\n\nDocument:\n{ocrText}\n\n{outputFormat}"
+}
+
+### Delete a template
+DELETE {{host}}/api/templates/{{templateId}}
+X-Api-Key: {{apiKey}}
