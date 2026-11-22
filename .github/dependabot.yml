@@ -15,6 +15,11 @@ updates:
       # Aspire 13.6 depends on MessagePack 2.x (see CLAUDE.md, held-back versions).
       - dependency-name: MessagePack
         update-types: ["version-update:semver-major"]
+      # .NET stays on 10 (LTS), and Aspire on 13.x, until we move to .NET 11 on purpose.
+      - dependency-name: "Microsoft.*"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "Aspire.*"
+        update-types: ["version-update:semver-major"]
 
   - package-ecosystem: npm
     directory: /src/DocumentProcessing.Web
@@ -27,6 +32,9 @@ updates:
     ignore:
       # typescript-eslint doesn't support TypeScript 7 yet (see CLAUDE.md, held-back versions).
       - dependency-name: typescript
+        update-types: ["version-update:semver-major"]
+      # The SignalR client follows the .NET server version (see above).
+      - dependency-name: "@microsoft/signalr"
         update-types: ["version-update:semver-major"]
 
   - package-ecosystem: github-actions
